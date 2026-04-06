@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: ocp/app
+    container_name: ocp-app
+    working_dir: /var/www/html/app
+    volumes:
+      - ./app:/var/www/html/app
+      - ./docker/php/php-socket:/var/run/php
+    networks:
+      - otus-network
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: ocp/nginx
+    container_name: ocp-nginx
+    volumes:
+      - ./app:/var/www/html/app
+      - ./docker/php/php-socket:/var/run/php
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - otus-network
+
+  db:
+    build:
+      context: ./docker/postgres
+      dockerfile: Dockerfile
+    image: ocp/postgres
+    container_name: ocp-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./docker/postgres/pgdata:/var/lib/postgresql/data
+
+  rabbitmq:
+    build:
+      context: ./docker/rabbitmq
+      dockerfile: Dockerfile
+    image: ocp/rabbitmq
+    container_name: ocp-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - ./docker/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+    networks:
+      - otus-network
+
+
+  #memcached:
+  #  image: memcached:1.6.39
+  #  container_name: ocp-memcached
+  #  networks:
+  #    - otus-network
+
+
+networks:
+  otus-network:
+    driver: bridge
