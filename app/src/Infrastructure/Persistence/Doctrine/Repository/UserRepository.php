@@ -25,4 +25,9 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
+
+    public function getUserByApiKey(string $apiKey): ?User
+    {
+        return $this->findOneBy(['apiKey' => $apiKey]);
+    }
 }

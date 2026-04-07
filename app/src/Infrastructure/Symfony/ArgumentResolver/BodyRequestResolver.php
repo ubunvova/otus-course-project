@@ -25,8 +25,9 @@ final class BodyRequestResolver implements ValueResolverInterface
     }
 
     /**
-     * @return iterable<int, mixed>
      * @throws ExceptionInterface
+     *
+     * @return iterable<int, mixed>
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
