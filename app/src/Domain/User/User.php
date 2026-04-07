@@ -5,21 +5,29 @@ declare(strict_types=1);
 namespace App\Domain\User;
 
 use DateTimeImmutable;
+use Symfony\Component\Uid\Uuid;
 
 class User
 {
+    private readonly string $id;
+    private readonly string $apiKey;
     private readonly DateTimeImmutable $createdAt;
 
     private function __construct(
-        private string $id,
         private string $name,
-        private string $apiKey,
     ) {
+        $this->id = Uuid::v4()->toRfc4122();
+        $this->apiKey = bin2hex(random_bytes(32));
         $this->createdAt = new DateTimeImmutable();
     }
 
-    public static function create(string $id, string $name, string $apiKey): self
+    public static function create(string $name): self
     {
-        return new self($id, $name, $apiKey);
+        return new self($name);
+    }
+
+    public function getApiKey(): string
+    {
+        return $this->apiKey;
     }
 }
