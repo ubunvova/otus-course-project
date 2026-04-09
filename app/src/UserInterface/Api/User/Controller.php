@@ -23,7 +23,7 @@ final readonly class Controller
     }
 
     #[Route('/user/create', methods: [Request::METHOD_POST])]
-    public function __invoke(
+    public function create(
         CommandBusInterface $commandBus,
         CreateUserRequest $httpRequest,
     ): JsonResponse {

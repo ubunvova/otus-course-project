@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Domain\ImageProcessing\ImageProcessing" table="image_processing">
+        <id name="id" type="uuid" column="id">
+            <generator strategy="NONE" />
+        </id>
+
+        <field name="userId" type="uuid" column="user_id" nullable="false" />
+
+        <field name="filePath" type="string" length="255" nullable="false"/>
+        <field name="operations" type="jsonb" nullable="false"/>
+        <field name="status" type="string" length="32" nullable="false"/>
+
+        <field name="resultFilePath" type="string" length="255" nullable="true"/>
+
+        <field name="createdAt" type="datetime_immutable"/>
+        <field name="updatedAt" type="datetime_immutable"/>
+    </entity>
+</doctrine-mapping>

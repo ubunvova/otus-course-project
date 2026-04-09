@@ -10,3 +10,17 @@ services:
 
     #App\Infrastructure\Symfony\ArgumentResolver\BodyRequestResolver:
     #  tags: [ controller.argument_value_resolver ]
+
+    App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\OperationMapper:
+      arguments:
+        $strategies:
+          - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
+          - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\CropOperationMapper'
+          - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\ConvertOperationMapper'
+
+    App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\OperationMapper:
+      arguments:
+        $strategies:
+          - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
+          - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\CropOperationMapper'
+          - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ConvertOperationMapper'

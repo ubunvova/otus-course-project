@@ -10,8 +10,10 @@ use App\Domain\User\UserRepositoryInterface;
 use App\Infrastructure\AuthComponent\AuthComponent;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-final readonly class UserExtractor implements UserExtractorInterface
+final class UserExtractor implements UserExtractorInterface
 {
+    private ?User $user = null;
+
     public function __construct(
         private AuthComponent $authComponent,
         private UserRepositoryInterface $userRepository,
@@ -20,14 +22,17 @@ final readonly class UserExtractor implements UserExtractorInterface
 
     public function getUser(): User
     {
-        $apiKey = $this->authComponent->getApiKey();
-
-        $user = $this->userRepository->getUserByApiKey($apiKey);
-
-        if (!$user) {
-            throw throw new UnauthorizedHttpException('User not found');
+        if ($this->user instanceof User) {
+            return $this->user;
         }
 
-        return $user;
+        $apiKey = $this->authComponent->getApiKey();
+        $this->user = $this->userRepository->getUserByApiKey($apiKey);
+
+        if (!$this->user) {
+            throw new UnauthorizedHttpException('User not found');
+        }
+
+        return $this->user;
     }
 }

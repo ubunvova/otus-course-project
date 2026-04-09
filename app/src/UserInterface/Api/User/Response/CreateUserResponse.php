@@ -14,7 +14,7 @@ final readonly class CreateUserResponse implements ResponseInterface
     }
 
     /**
-     * @return list<string>
+     * @return array<string>
      */
     public function jsonSerialize(): array
     {

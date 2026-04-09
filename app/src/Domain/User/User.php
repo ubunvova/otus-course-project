@@ -26,6 +26,11 @@ class User
         return new self($name);
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     public function getApiKey(): string
     {
         return $this->apiKey;
