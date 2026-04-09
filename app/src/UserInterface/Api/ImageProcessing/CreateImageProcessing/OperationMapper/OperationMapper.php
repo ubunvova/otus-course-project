@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper;
 
-use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommandInterface;
-use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\OperationRequestInterface;
+use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommand;
+use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\OperationRequest;
 use LogicException;
 
 final readonly class OperationMapper
@@ -19,9 +19,9 @@ final readonly class OperationMapper
     }
 
     /**
-     * @param list<OperationRequestInterface> $requests
+     * @param list<OperationRequest> $requests
      *
-     * @return list<OperationCommandInterface>
+     * @return list<OperationCommand>
      */
     public function mapOperations(array $requests): array
     {
@@ -34,7 +34,7 @@ final readonly class OperationMapper
         return $result;
     }
 
-    public function mapOperation(OperationRequestInterface $request): OperationCommandInterface
+    public function mapOperation(OperationRequest $request): OperationCommand
     {
         foreach ($this->strategies as $strategy) {
             if ($strategy->supports($request)) {

@@ -6,14 +6,11 @@ namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Op
 
 use Symfony\Component\Validator\Constraints as SymfonyAssert;
 
-final class ConvertOperationRequest implements OperationRequestInterface
+final class ConvertOperationRequest extends OperationRequest
 {
-    public function __construct(
-        #[SymfonyAssert\Sequentially([
-            new SymfonyAssert\NotBlank(),
-            new SymfonyAssert\Type('string'),
-        ])]
-        public string $format,
-    ) {
-    }
+    #[SymfonyAssert\Sequentially([
+        new SymfonyAssert\NotBlank(),
+        new SymfonyAssert\Type('string'),
+    ])]
+    public string $format;
 }

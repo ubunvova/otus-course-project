@@ -6,19 +6,16 @@ namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Op
 
 use Symfony\Component\Validator\Constraints as SymfonyAssert;
 
-final class ResizeOperationRequest implements OperationRequestInterface
+final class ResizeOperationRequest extends OperationRequest
 {
-    public function __construct(
-        #[SymfonyAssert\Sequentially([
-            new SymfonyAssert\NotBlank(),
-            new SymfonyAssert\Type('int'),
-        ])]
-        public int $width,
-        #[SymfonyAssert\Sequentially([
-            new SymfonyAssert\NotBlank(),
-            new SymfonyAssert\Type('int'),
-        ])]
-        public int $height,
-    ) {
-    }
+    #[SymfonyAssert\Sequentially([
+        new SymfonyAssert\NotBlank(),
+        new SymfonyAssert\Type('int'),
+    ])]
+    public int $width;
+    #[SymfonyAssert\Sequentially([
+        new SymfonyAssert\NotBlank(),
+        new SymfonyAssert\Type('int'),
+    ])]
+    public int $height;
 }

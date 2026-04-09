@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper;
 
-use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommandInterface;
-use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\OperationRequestInterface;
+use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommand;
+use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\OperationRequest;
 
 interface OperationMapperStrategyInterface
 {
-    public function supports(OperationRequestInterface $request): bool;
+    public function supports(OperationRequest $request): bool;
 
-    public function map(OperationRequestInterface $request): OperationCommandInterface;
+    public function map(OperationRequest $request): OperationCommand;
 }

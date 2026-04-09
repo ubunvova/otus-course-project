@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\ImageProcessing;
 
-use App\Domain\ImageProcessing\Operation\OperationInterface;
+use App\Domain\ImageProcessing\Operation\Operation;
 use DateTimeImmutable;
 use Symfony\Component\Uid\Uuid;
 
@@ -15,7 +15,7 @@ final readonly class ImageProcessing
     private DateTimeImmutable $updatedAt;
 
     /**
-     * @param list<OperationInterface> $operations
+     * @param list<Operation> $operations
      */
     private function __construct(
         private string $userId,
@@ -30,7 +30,7 @@ final readonly class ImageProcessing
     }
 
     /**
-     * @param list<OperationInterface> $operations
+     * @param list<Operation> $operations
      */
     public static function create(
         string $userId,
@@ -43,5 +43,25 @@ final readonly class ImageProcessing
             operations: $operations,
             status: ImageProcessingStatus::Created->value,
         );
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
+
+    public function getFilePath(): string
+    {
+        return $this->filePath;
+    }
+
+    public function getOperations(): array
+    {
+        return $this->operations;
     }
 }

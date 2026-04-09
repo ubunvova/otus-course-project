@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing;
+namespace App\Domain\ImageProcessing\Operation;
 
-enum ImageProcessingOperation: string
+enum ImageProcessingOperationType: string
 {
     case Resize = 'resize';
     case Crop = 'crop';

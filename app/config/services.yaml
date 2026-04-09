@@ -8,9 +8,6 @@ services:
     App\:
         resource: '../src/'
 
-    #App\Infrastructure\Symfony\ArgumentResolver\BodyRequestResolver:
-    #  tags: [ controller.argument_value_resolver ]
-
     App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\OperationMapper:
       arguments:
         $strategies:
@@ -24,3 +21,17 @@ services:
           - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
           - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\CropOperationMapper'
           - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ConvertOperationMapper'
+
+    App\Infrastructure\Persistence\Rabbitmq\AmqpConnectionFactory:
+      arguments:
+        $host: '%env(RABBITMQ_HOST)%'
+        $port: '%env(int:RABBITMQ_PORT)%'
+        $user: '%env(RABBITMQ_USER)%'
+        $password: '%env(RABBITMQ_PASSWORD)%'
+        $vhost: '%env(RABBITMQ_VHOST)%'
+
+    App\Infrastructure\Persistence\Rabbitmq\Producer\ImageProcessingProducer:
+      arguments:
+        $logger: '@logger'
+        $serializer: '@serializer'
+        $factory: '@App\Infrastructure\Persistence\Rabbitmq\AmqpConnectionFactory'

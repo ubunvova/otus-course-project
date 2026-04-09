@@ -2,20 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ImageProcessing\CreateImageProcessing;
+namespace App\Application\ImageProcessing\CreateImageProcessing\Message;
 
-use App\Application\Bus\Command\CommandInterface;
 use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommand;
 
-/**
- * @implements CommandInterface<null>
- */
-final readonly class CreateImageProcessingCommand implements CommandInterface
+final class ImageProcessingMessage
 {
     /**
      * @param list<OperationCommand> $operations
      */
     public function __construct(
+        public string $id,
         public string $userId,
         public string $filePath,
         public array $operations,
