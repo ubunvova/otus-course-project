@@ -24,7 +24,8 @@
     "symfony/property-access": "^8.0",
     "phpdocumentor/reflection-docblock": "^6.0",
     "symfony/mime": "^8.0",
-    "php-amqplib/php-amqplib": "^2.0"
+    "php-amqplib/php-amqplib": "^2.0",
+    "ext-gd": "*"
   },
   "config": {
     "allow-plugins": {

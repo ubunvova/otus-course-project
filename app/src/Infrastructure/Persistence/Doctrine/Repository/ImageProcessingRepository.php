@@ -25,4 +25,19 @@ class ImageProcessingRepository extends ServiceEntityRepository implements Image
         $this->getEntityManager()->persist($imageProcessing);
         $this->getEntityManager()->flush();
     }
+
+    public function update(ImageProcessing $imageProcessing): void
+    {
+        $this->getEntityManager()->persist($imageProcessing);
+    }
+
+    public function getById(string $id): ?ImageProcessing
+    {
+        return $this->findOneBy(['id' => $id]);
+    }
+
+    public function save(ImageProcessing $imageProcessing): void
+    {
+        $this->getEntityManager()->persist($imageProcessing);
+    }
 }

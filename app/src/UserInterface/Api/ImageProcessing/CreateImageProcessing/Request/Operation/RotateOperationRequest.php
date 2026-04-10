@@ -6,11 +6,11 @@ namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Op
 
 use Symfony\Component\Validator\Constraints as SymfonyAssert;
 
-final class ConvertOperationRequest extends OperationRequest
+final class RotateOperationRequest extends OperationRequest
 {
     #[SymfonyAssert\Sequentially([
         new SymfonyAssert\NotBlank(),
-        new SymfonyAssert\Type('string'),
+        new SymfonyAssert\Type('integer'),
     ])]
-    public string $format;
+    public int $angle;
 }

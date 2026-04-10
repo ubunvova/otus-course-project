@@ -8,7 +8,7 @@ use App\Domain\ImageProcessing\Operation\Operation;
 use DateTimeImmutable;
 use Symfony\Component\Uid\Uuid;
 
-final readonly class ImageProcessing
+final class ImageProcessing
 {
     private string $id;
     private DateTimeImmutable $createdAt;
@@ -60,8 +60,35 @@ final readonly class ImageProcessing
         return $this->filePath;
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getOperations(): array
     {
         return $this->operations;
+    }
+
+    public function markProcessingStatus(): void
+    {
+        $this->status = ImageProcessingStatus::Processing->value;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function markFailedStatus(): void
+    {
+        $this->status = ImageProcessingStatus::Failed->value;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function markCompletedStatus(): void
+    {
+        $this->status = ImageProcessingStatus::Completed->value;
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function setResultFilePath(string $resultFilePath): void
+    {
+        $this->resultFilePath = $resultFilePath;
+        $this->updatedAt = new DateTimeImmutable();
     }
 }

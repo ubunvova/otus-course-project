@@ -21,7 +21,7 @@ readonly class AmqpConnectionFactory
     {
         return new AMQPStreamConnection(
             host: $this->host,
-            port: (int) $this->port,
+            port: $this->port,
             user: $this->user,
             password: $this->password,
             vhost: $this->vhost,

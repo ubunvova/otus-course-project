@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\ImageProcessing\Operation;
+namespace App\Application\ImageProcessing\CreateImageProcessing\Command;
 
-final class ConvertOperation extends Operation
+final class RotateOperationCommand extends OperationCommand
 {
     public function __construct(
-        public string $format,
+        public int $angle,
         ImageProcessingOperationType $type,
     ) {
         parent::__construct(

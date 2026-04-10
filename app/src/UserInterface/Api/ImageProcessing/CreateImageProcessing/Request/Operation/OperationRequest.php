@@ -9,9 +9,9 @@ use Symfony\Component\Serializer\Attribute\DiscriminatorMap;
 use Symfony\Component\Validator\Constraints as SymfonyAssert;
 
 #[DiscriminatorMap(typeProperty: 'type', mapping: [
-    ImageProcessingOperationType::Resize->value => ResizeOperationRequest::class,
     ImageProcessingOperationType::Crop->value => CropOperationRequest::class,
-    ImageProcessingOperationType::Convert->value => ConvertOperationRequest::class,
+    ImageProcessingOperationType::Resize->value => ResizeOperationRequest::class,
+    ImageProcessingOperationType::Rotate->value => RotateOperationRequest::class,
 ])]
 abstract class OperationRequest
 {

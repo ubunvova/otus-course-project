@@ -6,7 +6,7 @@ namespace App\Domain\ImageProcessing\Operation;
 
 enum ImageProcessingOperationType: string
 {
-    case Resize = 'resize';
     case Crop = 'crop';
-    case Convert = 'convert';
+    case Resize = 'resize';
+    case Rotate = 'rotate';
 }

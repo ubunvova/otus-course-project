@@ -11,16 +11,23 @@ services:
     App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\OperationMapper:
       arguments:
         $strategies:
-          - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
           - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\CropOperationMapper'
-          - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\ConvertOperationMapper'
+          - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
+          - '@App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\RotateOperationMapper'
 
     App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\OperationMapper:
       arguments:
         $strategies:
-          - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
           - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\CropOperationMapper'
-          - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ConvertOperationMapper'
+          - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
+          - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\RotateOperationMapper'
+
+    App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\OperationDbMapper:
+      arguments:
+        $strategies:
+          - '@App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\CropDbOperationMapper'
+          - '@App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\ResizeDbOperationMapper'
+          - '@App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\RotateDbOperationMapper'
 
     App\Infrastructure\Persistence\Rabbitmq\AmqpConnectionFactory:
       arguments:
@@ -30,8 +37,10 @@ services:
         $password: '%env(RABBITMQ_PASSWORD)%'
         $vhost: '%env(RABBITMQ_VHOST)%'
 
-    App\Infrastructure\Persistence\Rabbitmq\Producer\ImageProcessingProducer:
+    App\Infrastructure\File\FileStorageService:
       arguments:
-        $logger: '@logger'
-        $serializer: '@serializer'
-        $factory: '@App\Infrastructure\Persistence\Rabbitmq\AmqpConnectionFactory'
+        $storagePath: '%kernel.project_dir%/storage/images/originals'
+
+    App\Infrastructure\File\ImageSaver:
+      arguments:
+        $storagePath: '%kernel.project_dir%/storage/images/processed'

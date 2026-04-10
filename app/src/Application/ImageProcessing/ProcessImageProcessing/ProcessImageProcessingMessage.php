@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ImageProcessing\CreateImageProcessing\Message;
+namespace App\Application\ImageProcessing\ProcessImageProcessing;
 
-final class ImageProcessingMessage
+final class ProcessImageProcessingMessage
 {
     public function __construct(
         public string $id,

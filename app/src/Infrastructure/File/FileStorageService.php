@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 final readonly class FileStorageService
 {
     public function __construct(
-        private string $storagePath = __DIR__ . '/../../../storage/images',
+        private string $storagePath,
     ) {
     }
 

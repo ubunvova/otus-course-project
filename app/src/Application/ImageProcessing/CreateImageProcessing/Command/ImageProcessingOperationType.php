@@ -8,16 +8,16 @@ use App\Domain\ImageProcessing\Operation\ImageProcessingOperationType as DomainI
 
 enum ImageProcessingOperationType: string
 {
-    case Resize = DomainImageProcessingOperation::Resize->value;
     case Crop = DomainImageProcessingOperation::Crop->value;
-    case Convert = DomainImageProcessingOperation::Convert->value;
+    case Resize = DomainImageProcessingOperation::Resize->value;
+    case Rotate = DomainImageProcessingOperation::Rotate->value;
 
     public function toDomain(): DomainImageProcessingOperation
     {
         return match ($this) {
-            self::Resize => DomainImageProcessingOperation::Resize,
             self::Crop => DomainImageProcessingOperation::Crop,
-            self::Convert => DomainImageProcessingOperation::Convert,
+            self::Resize => DomainImageProcessingOperation::Resize,
+            self::Rotate => DomainImageProcessingOperation::Rotate,
         };
     }
 }

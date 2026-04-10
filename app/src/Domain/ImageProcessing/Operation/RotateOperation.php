@@ -7,11 +7,10 @@ namespace App\Domain\ImageProcessing\Operation;
 use GdImage;
 use RuntimeException;
 
-final class ResizeOperation extends Operation
+final class RotateOperation extends Operation
 {
     public function __construct(
-        public int $width,
-        public int $height,
+        public int $angle,
         ImageProcessingOperationType $type,
     ) {
         parent::__construct(
@@ -21,12 +20,12 @@ final class ResizeOperation extends Operation
 
     public function apply(GdImage $image): GdImage
     {
-        $resized = imagescale($image, $this->width, $this->height);
+        $rotated = imagerotate($image, $this->angle, 0);
 
-        if ($resized === false) {
-            throw new RuntimeException('Resize operation failed');
+        if ($rotated === false) {
+            throw new RuntimeException('Rotate operation failed');
         }
 
-        return $resized;
+        return $rotated;
     }
 }

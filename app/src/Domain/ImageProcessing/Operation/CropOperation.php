@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\ImageProcessing\Operation;
 
+use GdImage;
+use RuntimeException;
+
 final class CropOperation extends Operation
 {
     public function __construct(
@@ -16,5 +19,21 @@ final class CropOperation extends Operation
         parent::__construct(
             type: $type,
         );
+    }
+
+    public function apply(GdImage $image): GdImage
+    {
+        $cropped = imagecrop($image, [
+            'x' => $this->x,
+            'y' => $this->y,
+            'width' => $this->width,
+            'height' => $this->height,
+        ]);
+
+        if ($cropped === false) {
+            throw new RuntimeException('Crop operation failed');
+        }
+
+        return $cropped;
     }
 }

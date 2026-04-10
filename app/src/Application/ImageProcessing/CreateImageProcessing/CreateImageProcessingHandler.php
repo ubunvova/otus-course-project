@@ -34,9 +34,6 @@ final readonly class CreateImageProcessingHandler
         $this->imageProcessingProducer->produce(
             new ImageProcessingMessage(
                 id: $imageProcessing->getId(),
-                userId: $command->userId,
-                filePath: $command->filePath,
-                operations: $command->operations,
             ),
         );
     }

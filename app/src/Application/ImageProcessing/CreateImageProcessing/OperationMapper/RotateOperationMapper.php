@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace App\Application\ImageProcessing\CreateImageProcessing\OperationMapper;
 
-use App\Application\ImageProcessing\CreateImageProcessing\Command\ConvertOperationCommand;
 use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommand;
-use App\Domain\ImageProcessing\Operation\ConvertOperation;
+use App\Application\ImageProcessing\CreateImageProcessing\Command\RotateOperationCommand;
 use App\Domain\ImageProcessing\Operation\Operation;
+use App\Domain\ImageProcessing\Operation\RotateOperation;
 
-final class ConvertOperationMapper implements OperationMapperStrategyInterface
+final class RotateOperationMapper implements OperationMapperStrategyInterface
 {
     public function supports(OperationCommand $request): bool
     {
-        return $request instanceof ConvertOperationCommand;
+        return $request instanceof RotateOperationCommand;
     }
 
     /**
-     * @param ConvertOperationCommand $request
+     * @param RotateOperationCommand $request
      */
     public function map(OperationCommand $request): Operation
     {
-        return new ConvertOperation(
-            format: $request->format,
+        return new RotateOperation(
+            angle: $request->angle,
             type: $request->type->toDomain(),
         );
     }
