@@ -51,6 +51,6 @@ final readonly class Controller
             ),
         );
 
-        return new JsonResponse(Response::HTTP_NO_CONTENT);
+        return new JsonResponse();
     }
 }

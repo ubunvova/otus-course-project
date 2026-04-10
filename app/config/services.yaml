@@ -44,3 +44,7 @@ services:
     App\Infrastructure\File\ImageSaver:
       arguments:
         $storagePath: '%kernel.project_dir%/storage/images/processed'
+
+    App\UserInterface\Api\Response\ExceptionListener:
+      tags:
+        - { name: kernel.event_listener, event: kernel.exception }

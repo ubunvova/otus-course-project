@@ -9,8 +9,7 @@ use App\Application\ImageProcessing\ProcessImageProcessing\ProcessImageProcessin
 use App\Infrastructure\Persistence\Rabbitmq\AmqpConnectionFactory;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Serializer\SerializerInterface;
-
-use function count;
+use Throwable;
 
 final class ImageProcessingConsumer
 {
@@ -20,31 +19,58 @@ final class ImageProcessingConsumer
         private AmqpConnectionFactory $factory,
         private SerializerInterface $serializer,
         private ProcessImageProcessingHandler $handler,
-    ) {
-    }
+    ) {}
 
     public function consume(): void
+    {
+        while (true) {
+            try {
+                $this->runConsumer();
+            } catch (Throwable) {
+                sleep(1);
+            }
+        }
+    }
+
+    private function runConsumer(): void
     {
         $connection = $this->factory->createConnection();
         $channel = $connection->channel();
 
+        $channel->queue_declare(
+            queue: self::QUEUE_NAME,
+            durable: true,
+            auto_delete: false
+        );
+
         $channel->basic_consume(
             queue: self::QUEUE_NAME,
             callback: function (AMQPMessage $msg) use ($channel): void {
-                $dto = $this->serializer->deserialize(
-                    $msg->body,
-                    ProcessImageProcessingMessage::class,
-                    'json',
-                );
+                try {
+                    $dto = $this->serializer->deserialize(
+                        $msg->body,
+                        ProcessImageProcessingMessage::class,
+                        'json'
+                    );
 
-                $this->handler->handle($dto);
+                    $this->handler->handle($dto);
 
-                $channel->basic_ack($msg->delivery_info['delivery_tag']);
-            },
+                    $channel->basic_ack($msg->delivery_info['delivery_tag']);
+                } catch (Throwable) {
+                    $channel->basic_reject($msg->delivery_info['delivery_tag'], false);
+                }
+            }
         );
 
-        while (count($channel->callbacks)) {
-            $channel->wait();
+        while (true) {
+            try {
+                $channel->wait();
+            } catch (Throwable) {
+                break;
+            }
         }
+
+        $channel->close();
+        $connection->close();
     }
 }
