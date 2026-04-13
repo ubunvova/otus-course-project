@@ -35,4 +35,14 @@ class User
     {
         return $this->apiKey;
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
 }

@@ -18,7 +18,6 @@ abstract class OperationRequest
     #[SymfonyAssert\Sequentially([
         new SymfonyAssert\NotNull(),
         new SymfonyAssert\Type('string'),
-        new SymfonyAssert\Choice(callback: [ImageProcessingOperationType::class, 'values']),
     ])]
     public string $type;
 }

@@ -17,7 +17,7 @@ ssh://git@github.com:ubunvova/otus-course-project.git
 
 Create `.env` from `.env.template` in the root folder and fill in your credentials.
 
-To start, run `make start` in the root of the project.
+To start, run `make start` and `make migrate` in the root of the project.
 
 ## Useful Commands
 

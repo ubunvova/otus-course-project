@@ -21,6 +21,10 @@ start:
 	@docker compose up -d
 	@$(CMD_EXEC) composer install
 
+migrate: ## Execute database migrations
+	@printf "\033[0;36mStarting migrations ...\033[0m\n"
+	@$(CMD_EXEC) php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+
 stop:
 	@printf "\033[0;36mStoping environment ...\033[0m\n"
 	@$(FORBID_IN_CONTAINER)

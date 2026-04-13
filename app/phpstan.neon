@@ -6,3 +6,5 @@ parameters:
         - config/
         - public/
         - src/
+    excludePaths:
+        - src/Infrastructure/Persistence/Rabbitmq/Consumer/ImageProcessingConsumer.php
