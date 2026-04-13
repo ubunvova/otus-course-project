@@ -16,8 +16,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
-          extensions: pdo, pdo_pgsql
+          php-version: '8.4'
+          extensions: pdo, pgsql
 
       - name: Validate composer
         run: cd app && composer validate --strict
@@ -34,8 +34,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
-          extensions: pdo, pdo_pgsql
+          php-version: '8.4'
+          extensions: pdo, pgsql
 
       - name: Install dependencies
         run: cd app && composer install --no-interaction
@@ -52,8 +52,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
-          extensions: pdo, pdo_pgsql
+          php-version: '8.4'
+          extensions: pdo, pgsql
 
       - name: Install dependencies
         run: cd app && composer install --no-interaction
