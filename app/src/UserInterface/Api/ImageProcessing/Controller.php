@@ -57,7 +57,7 @@ final readonly class Controller
             ),
         );
 
-        return new JsonResponse();
+        return new JsonResponse('Image process created successfully');
     }
 
     #[Route('/image_processing/history', methods: [Request::METHOD_GET])]
