@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint:
+    name: PHP Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql
+
+      - name: Validate composer
+        run: cd app && composer validate --strict
+
+      - name: Check PHP syntax
+        run: find app/src -name '*.php' -exec php -l {} \; | grep -v "No syntax errors"
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql
+
+      - name: Install dependencies
+        run: cd app && composer install --no-interaction
+
+      - name: Run PHPStan
+        run: cd app && vendor/bin/phpstan analyse
+
+  coding-standards:
+    name: Coding Standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql
+
+      - name: Install dependencies
+        run: cd app && composer install --no-interaction
+
+      - name: Check coding standards
+        run: cd app && vendor/bin/php-cs-fixer fix --dry-run --diff
+        continue-on-error: true

@@ -24,10 +24,11 @@ final class ImageProcessingConsumer
 
     public function consume(): void
     {
+        echo "📡 Consumer started. Waiting for messages...\n";
         while (true) {
             try {
                 $this->runConsumer();
-            } catch (Throwable) {
+            } catch (Throwable $e) {
                 sleep(1);
             }
         }
@@ -47,6 +48,8 @@ final class ImageProcessingConsumer
         $channel->basic_consume(
             queue: self::QUEUE_NAME,
             callback: function (AMQPMessage $msg) use ($channel): void {
+                echo "📨 Message received: {$msg->body}\n";
+
                 try {
                     $dto = $this->serializer->deserialize(
                         $msg->body,
@@ -56,8 +59,11 @@ final class ImageProcessingConsumer
 
                     $this->handler->handle($dto);
 
+                    echo "✅ Message processed successfully\n";
+
                     $channel->basic_ack($msg->delivery_info['delivery_tag']);
-                } catch (Throwable) {
+                } catch (Throwable $e) {
+                    echo "❌ Message failed: {$e->getMessage()}\n";
                     $channel->basic_reject($msg->delivery_info['delivery_tag'], false);
                 }
             },
