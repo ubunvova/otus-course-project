@@ -37,5 +37,4 @@ final readonly class ImageProcessingResponse implements ResponseInterface
             'updatedAt' => $this->updatedAt->format(DATE_ATOM),
         ];
     }
-
 }

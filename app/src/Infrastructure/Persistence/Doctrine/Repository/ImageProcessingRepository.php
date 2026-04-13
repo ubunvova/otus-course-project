@@ -36,6 +36,11 @@ class ImageProcessingRepository extends ServiceEntityRepository implements Image
         return $this->findOneBy(['id' => $id]);
     }
 
+    public function getByIdAndUserId(string $id, string $userId): ?ImageProcessing
+    {
+        return $this->findOneBy(['id' => $id, 'userId' => $userId]);
+    }
+
     /**
      * @return list<ImageProcessing>
      */

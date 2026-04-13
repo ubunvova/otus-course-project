@@ -44,6 +44,6 @@ final readonly class OperationDbMapper
             }
         }
 
-        throw new LogicException('Unknown operation type: ' . $data['type']);
+        throw new LogicException('Unknown operation type: ' . $data['type'], 404);
     }
 }

@@ -12,6 +12,8 @@ interface ImageProcessingRepositoryInterface
 
     public function getById(string $id): ?ImageProcessing;
 
+    public function getByIdAndUserId(string $id, string $userId): ?ImageProcessing;
+
     /**
      * @return list<ImageProcessing>
      */

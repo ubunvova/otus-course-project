@@ -42,6 +42,6 @@ final readonly class OperationMapper
             }
         }
 
-        throw new LogicException('No mapper found for ' . $request::class);
+        throw new LogicException('No mapper found for ' . $request::class, 404);
     }
 }

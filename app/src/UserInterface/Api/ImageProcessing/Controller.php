@@ -6,6 +6,7 @@ namespace App\UserInterface\Api\ImageProcessing;
 
 use App\Application\Bus\Command\CommandBusInterface;
 use App\Application\ImageProcessing\CreateImageProcessing\CreateImageProcessingCommand;
+use App\Application\ImageProcessing\GetImageProcessing\GetImageProcessingCommand;
 use App\Application\ImageProcessing\GetImageProcessingHistory\GetImageProcessingHistoryCommand;
 use App\Infrastructure\File\FileStorageService;
 use App\Infrastructure\Persistence\Doctrine\Request\UserExtractor;
@@ -13,6 +14,8 @@ use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\CreateImageProcessingRequest;
 use App\UserInterface\Api\ImageProcessing\GetImageProcessingHistory\Response\GetImageProcessingHistoryResponse;
 use App\UserInterface\Api\Response\JsonResponder;
+use LogicException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -69,5 +72,26 @@ final readonly class Controller
         );
 
         return $this->responder->respondWith(new GetImageProcessingHistoryResponse($imageProcessingHistory->imageProcessing));
+    }
+
+    #[Route('/image_processing/{id}', methods: [Request::METHOD_GET])]
+    public function get(string $id): BinaryFileResponse
+    {
+        $user = $this->userExtractor->getUser();
+
+        $imageProcessingHistory = $this->commandBus->dispatch(
+            new GetImageProcessingCommand(
+                id: $id,
+                userId: $user->getId(),
+            ),
+        );
+
+        $resultFilePath = $imageProcessingHistory->resultFilePath;
+
+        if (!is_file($resultFilePath)) {
+            throw new LogicException('Result file not found', 404);
+        }
+
+        return new BinaryFileResponse($resultFilePath);
     }
 }
