@@ -22,13 +22,6 @@ services:
           - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\ResizeOperationMapper'
           - '@App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\RotateOperationMapper'
 
-    App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\OperationDbMapper:
-      arguments:
-        $strategies:
-          - '@App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\CropDbOperationMapper'
-          - '@App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\ResizeDbOperationMapper'
-          - '@App\Application\ImageProcessing\ProcessImageProcessing\OperationMapper\RotateDbOperationMapper'
-
     App\Infrastructure\Persistence\Rabbitmq\AmqpConnectionFactory:
       arguments:
         $host: '%env(RABBITMQ_HOST)%'

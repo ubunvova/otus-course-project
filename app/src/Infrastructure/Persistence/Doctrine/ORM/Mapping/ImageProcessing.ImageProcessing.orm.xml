@@ -8,7 +8,7 @@
         <field name="userId" type="uuid" column="user_id" nullable="false" />
 
         <field name="filePath" type="string" length="255" nullable="false"/>
-        <field name="operations" type="jsonb" nullable="false"/>
+        <field name="operations" type="operations" nullable="false"/>
         <field name="status" type="string" length="32" nullable="false"/>
 
         <field name="resultFilePath" type="string" length="255" nullable="true"/>

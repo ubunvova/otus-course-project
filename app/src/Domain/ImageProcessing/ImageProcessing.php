@@ -61,7 +61,7 @@ final class ImageProcessing
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return list<Operation>
      */
     public function getOperations(): array
     {
