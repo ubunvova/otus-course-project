@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper;
 
 use App\Application\ImageProcessing\CreateImageProcessing\Command\CropOperationCommand;
-use App\Application\ImageProcessing\CreateImageProcessing\Command\ImageProcessingOperationType;
 use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommand;
+use App\Application\ImageProcessing\ImageProcessingOperationType;
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\CropOperationRequest;
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\OperationRequest;
 

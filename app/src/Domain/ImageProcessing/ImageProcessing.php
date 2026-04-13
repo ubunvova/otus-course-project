@@ -68,6 +68,26 @@ final class ImageProcessing
         return $this->operations;
     }
 
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function getResultFilePath(): ?string
+    {
+        return $this->resultFilePath;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
     public function markProcessingStatus(): void
     {
         $this->status = ImageProcessingStatus::Processing->value;

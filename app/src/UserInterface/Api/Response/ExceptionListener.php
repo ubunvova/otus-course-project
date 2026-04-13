@@ -16,7 +16,7 @@ final readonly class ExceptionListener
             exception: $exception,
             data: json_encode([
                 'error' => $exception->getMessage(),
-            ])
+            ]),
         );
 
         $event->setResponse($response);

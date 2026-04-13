@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation;
 
-use App\Application\ImageProcessing\CreateImageProcessing\Command\ImageProcessingOperationType;
+use App\Application\ImageProcessing\ImageProcessingOperationType;
 use Symfony\Component\Serializer\Attribute\DiscriminatorMap;
 use Symfony\Component\Validator\Constraints as SymfonyAssert;
 

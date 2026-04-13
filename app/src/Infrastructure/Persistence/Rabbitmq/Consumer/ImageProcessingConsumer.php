@@ -19,7 +19,8 @@ final class ImageProcessingConsumer
         private AmqpConnectionFactory $factory,
         private SerializerInterface $serializer,
         private ProcessImageProcessingHandler $handler,
-    ) {}
+    ) {
+    }
 
     public function consume(): void
     {
@@ -40,7 +41,7 @@ final class ImageProcessingConsumer
         $channel->queue_declare(
             queue: self::QUEUE_NAME,
             durable: true,
-            auto_delete: false
+            auto_delete: false,
         );
 
         $channel->basic_consume(
@@ -50,7 +51,7 @@ final class ImageProcessingConsumer
                     $dto = $this->serializer->deserialize(
                         $msg->body,
                         ProcessImageProcessingMessage::class,
-                        'json'
+                        'json',
                     );
 
                     $this->handler->handle($dto);
@@ -59,7 +60,7 @@ final class ImageProcessingConsumer
                 } catch (Throwable) {
                     $channel->basic_reject($msg->delivery_info['delivery_tag'], false);
                 }
-            }
+            },
         );
 
         while (true) {

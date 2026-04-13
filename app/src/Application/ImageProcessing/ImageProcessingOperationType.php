@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\ImageProcessing\CreateImageProcessing\Command;
+namespace App\Application\ImageProcessing;
 
 use App\Domain\ImageProcessing\Operation\ImageProcessingOperationType as DomainImageProcessingOperation;
 

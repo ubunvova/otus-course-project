@@ -12,5 +12,10 @@ interface ImageProcessingRepositoryInterface
 
     public function getById(string $id): ?ImageProcessing;
 
+    /**
+     * @return list<ImageProcessing>
+     */
+    public function getByUserId(string $userId): array;
+
     public function save(ImageProcessing $imageProcessing): void;
 }
