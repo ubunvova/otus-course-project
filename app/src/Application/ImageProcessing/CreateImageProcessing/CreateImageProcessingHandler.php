@@ -9,7 +9,11 @@ use App\Application\ImageProcessing\CreateImageProcessing\OperationMapper\Operat
 use App\Domain\ImageProcessing\ImageProcessing;
 use App\Domain\ImageProcessing\ImageProcessingRepositoryInterface;
 use App\Infrastructure\Persistence\Rabbitmq\Producer\ImageProcessingProducer;
+use DomainException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Throwable;
+
+use function sprintf;
 
 final readonly class CreateImageProcessingHandler
 {
@@ -21,7 +25,7 @@ final readonly class CreateImageProcessingHandler
     }
 
     #[AsMessageHandler]
-    public function __invoke(CreateImageProcessingCommand $command): void
+    public function __invoke(CreateImageProcessingCommand $command): CreateImageProcessingOutput
     {
         $imageProcessing = ImageProcessing::create(
             userId: $command->userId,
@@ -29,12 +33,18 @@ final readonly class CreateImageProcessingHandler
             operations: $this->operationMapper->mapOperations($command->operations),
         );
 
-        $this->imageProcessingRepository->create($imageProcessing);
+        try {
+            $this->imageProcessingRepository->create($imageProcessing);
+            $this->imageProcessingProducer->produce(
+                new ImageProcessingMessage(
+                    id: $imageProcessing->getId(),
+                ),
+            );
+        } catch (Throwable $e) {
+            $this->imageProcessingRepository->delete($imageProcessing);
+            throw new DomainException(sprintf('Error publishing message to job queue, error: %s', $e->getMessage()));
+        }
 
-        $this->imageProcessingProducer->produce(
-            new ImageProcessingMessage(
-                id: $imageProcessing->getId(),
-            ),
-        );
+        return new CreateImageProcessingOutput($imageProcessing->getId());
     }
 }

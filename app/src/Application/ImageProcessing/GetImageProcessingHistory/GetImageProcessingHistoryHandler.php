@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Application\ImageProcessing\GetImageProcessingHistory;
 
 use App\Application\ImageProcessing\GetImageProcessingHistory\Output\ImageProcessingOutput;
-use App\Application\ImageProcessing\ImageProcessingStatus;
 use App\Domain\ImageProcessing\ImageProcessingRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -24,7 +23,7 @@ final class GetImageProcessingHistoryHandler
         $imageProcessingOutput = array_map(
             static fn ($imageProcessing) => new ImageProcessingOutput(
                 id: $imageProcessing->getId(),
-                status: ImageProcessingStatus::from($imageProcessing->getStatus()),
+                status: $imageProcessing->getStatus(),
                 createdAt: $imageProcessing->getCreatedAt(),
                 updatedAt: $imageProcessing->getUpdatedAt(),
             ),

@@ -10,20 +10,19 @@ use Symfony\Component\Uid\Uuid;
 class User
 {
     private readonly string $id;
-    private readonly string $apiKey;
     private readonly DateTimeImmutable $createdAt;
 
     private function __construct(
         private string $name,
+        private string $apiKey,
     ) {
         $this->id = Uuid::v4()->toRfc4122();
-        $this->apiKey = bin2hex(random_bytes(32));
         $this->createdAt = new DateTimeImmutable();
     }
 
-    public static function create(string $name): self
+    public static function create(string $name, string $apiKey): self
     {
-        return new self($name);
+        return new self($name, $apiKey);
     }
 
     public function getId(): string

@@ -26,12 +26,21 @@ final class UserExtractor implements UserExtractorInterface
             return $this->user;
         }
 
-        $apiKey = $this->authComponent->getApiKey();
-        $this->user = $this->userRepository->getUserByApiKey($apiKey);
+        $providedKey = $this->authComponent->getApiKey();
 
-        if (!$this->user) {
-            throw new UnauthorizedHttpException('User not found');
+        if (!$providedKey) {
+            throw new UnauthorizedHttpException('Missing API key');
         }
+
+        $apiKeyHash = bin2hex(sodium_crypto_generichash($providedKey));
+
+        $user = $this->userRepository->getUserByApiKey($apiKeyHash);
+
+        if (!$user) {
+            throw new UnauthorizedHttpException('Invalid API key');
+        }
+
+        $this->user = $user;
 
         return $this->user;
     }

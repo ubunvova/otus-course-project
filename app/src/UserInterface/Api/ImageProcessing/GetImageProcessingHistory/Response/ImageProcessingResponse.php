@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\ImageProcessing\GetImageProcessingHistory\Response;
 
-use App\Application\ImageProcessing\ImageProcessingStatus;
+use App\Domain\ImageProcessing\ImageProcessingStatus;
 use App\UserInterface\Api\Response\ResponseInterface;
 use DateTimeImmutable;
 

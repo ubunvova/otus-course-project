@@ -12,6 +12,7 @@ use App\Infrastructure\File\FileStorageService;
 use App\Infrastructure\Persistence\Doctrine\Request\UserExtractor;
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\OperationMapper;
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\CreateImageProcessingRequest;
+use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Response\CreateImageProcessingResponse;
 use App\UserInterface\Api\ImageProcessing\GetImageProcessingHistory\Response\GetImageProcessingHistoryResponse;
 use App\UserInterface\Api\Response\JsonResponder;
 use LogicException;
@@ -49,7 +50,7 @@ final readonly class Controller
 
         $saveFilePath = $this->fileStorageService->store($image);
 
-        $this->commandBus->dispatch(
+        $imageProcessing = $this->commandBus->dispatch(
             new CreateImageProcessingCommand(
                 userId: $user->getId(),
                 filePath: $saveFilePath,
@@ -57,7 +58,7 @@ final readonly class Controller
             ),
         );
 
-        return new JsonResponse('Image process created successfully');
+        return $this->responder->respondWith(new CreateImageProcessingResponse($imageProcessing->id));
     }
 
     #[Route('/image_processing/history', methods: [Request::METHOD_GET])]

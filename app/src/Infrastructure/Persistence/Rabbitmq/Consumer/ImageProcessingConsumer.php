@@ -8,6 +8,7 @@ use App\Application\ImageProcessing\ProcessImageProcessing\ProcessImageProcessin
 use App\Application\ImageProcessing\ProcessImageProcessing\ProcessImageProcessingMessage;
 use App\Infrastructure\Persistence\Rabbitmq\AmqpConnectionFactory;
 use PhpAmqpLib\Message\AMQPMessage;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Throwable;
 
@@ -17,6 +18,7 @@ final class ImageProcessingConsumer
 
     public function __construct(
         private AmqpConnectionFactory $factory,
+        private readonly LoggerInterface $logger,
         private SerializerInterface $serializer,
         private ProcessImageProcessingHandler $handler,
     ) {
@@ -24,7 +26,7 @@ final class ImageProcessingConsumer
 
     public function consume(): void
     {
-        echo "📡 Consumer started. Waiting for messages...\n";
+        $this->logger->info("📡 Consumer started. Waiting for messages...\n");
         while (true) {
             try {
                 $this->runConsumer();
@@ -48,7 +50,7 @@ final class ImageProcessingConsumer
         $channel->basic_consume(
             queue: self::QUEUE_NAME,
             callback: function (AMQPMessage $msg) use ($channel): void {
-                echo "📨 Message received: {$msg->body}\n";
+                $this->logger->info("📨 Message received: {$msg->body}\n");
 
                 try {
                     $dto = $this->serializer->deserialize(
@@ -59,11 +61,11 @@ final class ImageProcessingConsumer
 
                     $this->handler->handle($dto);
 
-                    echo "✅ Message processed successfully\n";
+                    $this->logger->info("✅ Message processed successfully\n");
 
                     $channel->basic_ack($msg->delivery_info['delivery_tag']);
                 } catch (Throwable $e) {
-                    echo "❌ Message failed: {$e->getMessage()}\n";
+                    $this->logger->error("❌ Message failed: {$e->getMessage()}\n");
                     $channel->basic_reject($msg->delivery_info['delivery_tag'], false);
                 }
             },

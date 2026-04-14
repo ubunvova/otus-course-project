@@ -9,7 +9,7 @@
 
         <field name="filePath" type="string" length="255" nullable="false"/>
         <field name="operations" type="operations" nullable="false"/>
-        <field name="status" type="string" length="32" nullable="false"/>
+        <field name="status" type="status" length="32" nullable="false"/>
 
         <field name="resultFilePath" type="string" length="255" nullable="true"/>
 

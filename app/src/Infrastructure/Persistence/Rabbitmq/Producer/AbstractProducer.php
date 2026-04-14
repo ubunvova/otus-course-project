@@ -23,6 +23,7 @@ abstract class AbstractProducer
             $this->publish($json);
         } catch (Throwable $exception) {
             $this->logger->error('Producer error: ' . $exception->getMessage());
+            throw $exception;
         }
     }
 

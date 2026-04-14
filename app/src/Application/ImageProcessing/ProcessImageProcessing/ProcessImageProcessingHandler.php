@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\ImageProcessing\ProcessImageProcessing;
 
+use App\Application\Common\FlusherInterface;
 use App\Application\ImageProcessing\ProcessImageProcessing\Service\ImageProcessingOrchestrator;
 use App\Domain\ImageProcessing\ImageProcessingRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Throwable;
 
 final class ProcessImageProcessingHandler
@@ -14,13 +15,17 @@ final class ProcessImageProcessingHandler
     public function __construct(
         private ImageProcessingRepositoryInterface $imageProcessingRepository,
         private ImageProcessingOrchestrator $imageProcessingOrchestrator,
-        private EntityManagerInterface $entityManager,
+        private FlusherInterface $flusher,
     ) {
     }
 
     public function handle(ProcessImageProcessingMessage $message): void
     {
         $imageProcessing = $this->imageProcessingRepository->getById($message->id);
+
+        if (!$imageProcessing) {
+            throw new LogicException('No image processing found');
+        }
 
         $imageProcessing->markProcessingStatus();
         $this->imageProcessingRepository->save($imageProcessing);
@@ -32,7 +37,7 @@ final class ProcessImageProcessingHandler
             $imageProcessing->markFailedStatus();
         }
 
-        $this->imageProcessingRepository->update($imageProcessing);
-        $this->entityManager->flush();
+        $this->imageProcessingRepository->save($imageProcessing);
+        $this->flusher->flush();
     }
 }

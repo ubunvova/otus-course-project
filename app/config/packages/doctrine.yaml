@@ -9,6 +9,7 @@ doctrine:
       server_version: '15.5'
       types:
         operations: App\Infrastructure\Persistence\Doctrine\DBAL\Types\ImageProcessingOperationType
+        status: App\Infrastructure\Persistence\Doctrine\DBAL\Types\ImageProcessingStatusType
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore

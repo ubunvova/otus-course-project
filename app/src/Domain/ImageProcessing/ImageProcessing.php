@@ -21,7 +21,7 @@ final class ImageProcessing
         private string $userId,
         private string $filePath,
         private array $operations,
-        private string $status,
+        private ImageProcessingStatus $status,
         private ?string $resultFilePath = null,
     ) {
         $this->id = Uuid::v4()->toRfc4122();
@@ -41,7 +41,7 @@ final class ImageProcessing
             userId: $userId,
             filePath: $filePath,
             operations: $operations,
-            status: ImageProcessingStatus::Created->value,
+            status: ImageProcessingStatus::Created,
         );
     }
 
@@ -68,7 +68,7 @@ final class ImageProcessing
         return $this->operations;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ImageProcessingStatus
     {
         return $this->status;
     }
@@ -90,19 +90,19 @@ final class ImageProcessing
 
     public function markProcessingStatus(): void
     {
-        $this->status = ImageProcessingStatus::Processing->value;
+        $this->status = ImageProcessingStatus::Processing;
         $this->updatedAt = new DateTimeImmutable();
     }
 
     public function markFailedStatus(): void
     {
-        $this->status = ImageProcessingStatus::Failed->value;
+        $this->status = ImageProcessingStatus::Failed;
         $this->updatedAt = new DateTimeImmutable();
     }
 
     public function markCompletedStatus(): void
     {
-        $this->status = ImageProcessingStatus::Completed->value;
+        $this->status = ImageProcessingStatus::Completed;
         $this->updatedAt = new DateTimeImmutable();
     }
 

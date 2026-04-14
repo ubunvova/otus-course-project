@@ -26,9 +26,10 @@ class ImageProcessingRepository extends ServiceEntityRepository implements Image
         $this->getEntityManager()->flush();
     }
 
-    public function update(ImageProcessing $imageProcessing): void
+    public function delete(ImageProcessing $imageProcessing): void
     {
-        $this->getEntityManager()->persist($imageProcessing);
+        $this->getEntityManager()->remove($imageProcessing);
+        $this->getEntityManager()->flush();
     }
 
     public function getById(string $id): ?ImageProcessing

@@ -24,7 +24,7 @@ final readonly class ImageProcessingOrchestrator
             $image = $operation->apply($image);
         }
 
-        $resultFilePath = $this->imageSaver->save($imageProcessing->getId(), $image);
+        $resultFilePath = $this->imageSaver->save($imageProcessing->getId(), $imageProcessing->getFilePath(), $image);
         $imageProcessing->setResultFilePath($resultFilePath);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UserInterface\Api\Response;
 
+use DomainException;
 use LogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +21,9 @@ final class ErrorResponse extends JsonResponse
     private function detectStatusCode(Throwable $exception): int
     {
         return match (true) {
+            $exception instanceof DomainException => Response::HTTP_BAD_REQUEST,
             $exception instanceof HttpException => $exception->getStatusCode(),
-            $exception instanceof LogicException => $exception->getCode(),
+            $exception instanceof LogicException => Response::HTTP_NOT_FOUND,
             default => Response::HTTP_INTERNAL_SERVER_ERROR,
         };
     }

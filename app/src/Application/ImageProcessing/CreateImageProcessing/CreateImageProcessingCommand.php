@@ -8,7 +8,7 @@ use App\Application\Bus\Command\CommandInterface;
 use App\Application\ImageProcessing\CreateImageProcessing\Command\OperationCommand;
 
 /**
- * @implements CommandInterface<null>
+ * @implements CommandInterface<CreateImageProcessingOutput>
  */
 final readonly class CreateImageProcessingCommand implements CommandInterface
 {

@@ -25,7 +25,10 @@
     "phpdocumentor/reflection-docblock": "^6.0",
     "symfony/mime": "^8.0",
     "php-amqplib/php-amqplib": "^2.0",
-    "ext-gd": "*"
+    "ext-gd": "*",
+    "ext-sodium": "*",
+    "ext-fileinfo": "*",
+    "symfony/monolog-bundle": "^4.0"
   },
   "config": {
     "allow-plugins": {

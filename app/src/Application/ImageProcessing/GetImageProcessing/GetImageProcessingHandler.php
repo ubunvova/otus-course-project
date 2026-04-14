@@ -21,11 +21,11 @@ final class GetImageProcessingHandler
         $imageProcessing = $this->imageProcessingRepository->getByIdAndUserId($command->id, $command->userId);
 
         if (!$imageProcessing) {
-            throw new LogicException('No image processing found', 404);
+            throw new LogicException('No image processing found');
         }
 
         if (!$imageProcessing->getResultFilePath()) {
-            throw new LogicException('No image processing result file found', 404);
+            throw new LogicException('No image processing result file found');
         }
 
         return new GetImageProcessingOutput($imageProcessing->getResultFilePath());

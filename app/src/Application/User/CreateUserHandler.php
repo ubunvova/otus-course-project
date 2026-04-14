@@ -18,10 +18,13 @@ final readonly class CreateUserHandler
     #[AsMessageHandler]
     public function __invoke(CreateUserCommand $command): CreateOrderOutput
     {
-        $user = User::create($command->name);
+        $apiKey = bin2hex(random_bytes(32));
+        $apiKeyHash = bin2hex(sodium_crypto_generichash($apiKey));
+
+        $user = User::create($command->name, $apiKeyHash);
 
         $this->userRepository->create($user);
 
-        return new CreateOrderOutput($user->getApiKey());
+        return new CreateOrderOutput($apiKey);
     }
 }
