@@ -20,32 +20,47 @@ final class ImageProcessingOrchestratorTest extends TestCase
 {
     private ImageLoader $imageLoader;
     private MockObject|ImageSaver $imageSaver;
-    private ImageProcessingOrchestrator $imageProcessingOrchestrator;
+    private ImageProcessingOrchestrator $orchestrator;
+
+    private string $tempImagePath;
 
     protected function setUp(): void
     {
+        $this->tempImagePath = sys_get_temp_dir() . '/test_image_' . uniqid() . '.jpg';
+
+        $image = imagecreatetruecolor(10, 10);
+        imagejpeg($image, $this->tempImagePath);
+
         $this->imageLoader = new ImageLoader();
+
         $this->imageSaver = $this->createMock(ImageSaver::class);
         $this->imageSaver->method('save')->willReturn('/path/to/result');
 
-        $this->imageProcessingOrchestrator = new ImageProcessingOrchestrator(
+        $this->orchestrator = new ImageProcessingOrchestrator(
             $this->imageLoader,
             $this->imageSaver,
         );
+    }
+
+    protected function tearDown(): void
+    {
+        if (file_exists($this->tempImagePath)) {
+            unlink($this->tempImagePath);
+        }
     }
 
     public function testProcess(): void
     {
         $imageProcessing = ImageProcessing::create(
             userId: '1',
-            filePath: '/var/www/html/app/tests/_data/test.jpg',
+            filePath: $this->tempImagePath,
             operations: [
                 new RotateOperation(90, ImageProcessingOperationType::Rotate),
             ],
         );
 
-        $this->imageProcessingOrchestrator->process($imageProcessing);
+        $this->orchestrator->process($imageProcessing);
 
-        $this->assertEquals('/path/to/result', $imageProcessing->getResultFilePath());
+        $this->assertSame('/path/to/result', $imageProcessing->getResultFilePath());
     }
 }
