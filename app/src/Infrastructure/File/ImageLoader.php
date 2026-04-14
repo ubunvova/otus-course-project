@@ -7,7 +7,7 @@ namespace App\Infrastructure\File;
 use GdImage;
 use RuntimeException;
 
-final readonly class ImageLoader
+readonly class ImageLoader
 {
     public function load(string $path): GdImage
     {

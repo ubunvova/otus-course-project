@@ -10,7 +10,7 @@ use RuntimeException;
 
 use const FILEINFO_MIME_TYPE;
 
-final readonly class ImageSaver
+readonly class ImageSaver
 {
     public function __construct(
         private string $storagePath,

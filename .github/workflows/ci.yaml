@@ -42,3 +42,21 @@ jobs:
 
       - name: Check coding standards
         run: cd app && vendor/bin/php-cs-fixer fix --dry-run --diff
+
+  php-unit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo, pgsql, gd
+
+      - name: Install dependencies
+        run: cd app && composer install --no-interaction
+
+      - name: Run PHPUnit
+        run: cd app && vendor/bin/phpunit
