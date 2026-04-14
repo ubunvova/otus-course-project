@@ -10,7 +10,10 @@ use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\RotateOperationRequest;
 use PHPUnit\Framework\TestCase;
 
-class RotateOperationMapperTest extends TestCase
+/**
+ * @internal
+ */
+final class RotateOperationMapperTest extends TestCase
 {
     private RotateOperationMapper $mapper;
 

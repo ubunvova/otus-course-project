@@ -10,7 +10,10 @@ use App\Application\ImageProcessing\ImageProcessingOperationType;
 use App\Domain\ImageProcessing\Operation\RotateOperation;
 use PHPUnit\Framework\TestCase;
 
-class RotateOperationMapperTest extends TestCase
+/**
+ * @internal
+ */
+final class RotateOperationMapperTest extends TestCase
 {
     private RotateOperationMapper $mapper;
 
@@ -23,7 +26,7 @@ class RotateOperationMapperTest extends TestCase
     {
         $command = new RotateOperationCommand(
             angle: 90,
-            type: ImageProcessingOperationType::Rotate
+            type: ImageProcessingOperationType::Rotate,
         );
 
         $result = $this->mapper->map($command);
@@ -36,7 +39,7 @@ class RotateOperationMapperTest extends TestCase
     {
         $command = new RotateOperationCommand(
             angle: 90,
-            type: ImageProcessingOperationType::Rotate
+            type: ImageProcessingOperationType::Rotate,
         );
 
         $result = $this->mapper->supports($command);

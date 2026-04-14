@@ -10,7 +10,10 @@ use App\Application\ImageProcessing\ImageProcessingOperationType;
 use App\Domain\ImageProcessing\Operation\ResizeOperation;
 use PHPUnit\Framework\TestCase;
 
-class ResizeOperationMapperTest extends TestCase
+/**
+ * @internal
+ */
+final class ResizeOperationMapperTest extends TestCase
 {
     private ResizeOperationMapper $mapper;
 
@@ -24,7 +27,7 @@ class ResizeOperationMapperTest extends TestCase
         $command = new ResizeOperationCommand(
             width: 100,
             height: 200,
-            type: ImageProcessingOperationType::Resize
+            type: ImageProcessingOperationType::Resize,
         );
 
         $result = $this->mapper->map($command);
@@ -39,7 +42,7 @@ class ResizeOperationMapperTest extends TestCase
         $command = new ResizeOperationCommand(
             width: 100,
             height: 200,
-            type: ImageProcessingOperationType::Resize
+            type: ImageProcessingOperationType::Resize,
         );
 
         $result = $this->mapper->supports($command);

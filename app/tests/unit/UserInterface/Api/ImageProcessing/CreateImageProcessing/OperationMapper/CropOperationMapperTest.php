@@ -10,7 +10,10 @@ use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\CropOperationRequest;
 use PHPUnit\Framework\TestCase;
 
-class CropOperationMapperTest extends TestCase
+/**
+ * @internal
+ */
+final class CropOperationMapperTest extends TestCase
 {
     private CropOperationMapper $mapper;
 

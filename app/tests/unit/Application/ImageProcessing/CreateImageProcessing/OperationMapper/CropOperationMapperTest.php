@@ -10,7 +10,10 @@ use App\Application\ImageProcessing\ImageProcessingOperationType;
 use App\Domain\ImageProcessing\Operation\CropOperation;
 use PHPUnit\Framework\TestCase;
 
-class CropOperationMapperTest extends TestCase
+/**
+ * @internal
+ */
+final class CropOperationMapperTest extends TestCase
 {
     private CropOperationMapper $mapper;
 
@@ -26,7 +29,7 @@ class CropOperationMapperTest extends TestCase
             y: 20,
             width: 100,
             height: 150,
-            type: ImageProcessingOperationType::Crop
+            type: ImageProcessingOperationType::Crop,
         );
 
         $result = $this->mapper->map($command);
@@ -45,7 +48,7 @@ class CropOperationMapperTest extends TestCase
             y: 20,
             width: 100,
             height: 150,
-            type: ImageProcessingOperationType::Crop
+            type: ImageProcessingOperationType::Crop,
         );
 
         $result = $this->mapper->supports($command);

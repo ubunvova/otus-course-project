@@ -10,7 +10,10 @@ use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\OperationMapper\
 use App\UserInterface\Api\ImageProcessing\CreateImageProcessing\Request\Operation\ResizeOperationRequest;
 use PHPUnit\Framework\TestCase;
 
-class ResizeOperationMapperTest extends TestCase
+/**
+ * @internal
+ */
+final class ResizeOperationMapperTest extends TestCase
 {
     private ResizeOperationMapper $mapper;
 
